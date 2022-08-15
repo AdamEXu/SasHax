@@ -1,15 +1,27 @@
 import sys
 import os
+from time import sleep
+import webbrowser
 from os import system as ex
 
+needauth = False
+
 userpath = os.path.expanduser("~")
-print(userpath)
+# print(userpath)
 
 print("SasHax is loading...")
-print("Note that SasHax may need administrative privileges to run. Please enter your password to continue:")
-os.system("sudo echo Authenticated...")
+if needauth:
+    print("Note that SasHax may need administrative privileges to run. Please enter your password to continue:")
+    os.system("sudo echo Authenticated...")
 print("SasHax is ready to use!")
-query = input("Press enter to continue...")
+query = input("Press enter to agree to our TOS and start SasHax, or type in 'T' to view the TOS: ")
+while query != "":
+    if query == "T":
+        print("Our TOS can be found at https://sashax.adamthegreat.rocks/tos")
+        print("Now opening the TOS in your default web browser...")
+        sleep(1)
+        webbrowser.open('https://sashax.adamthegreat.rocks/tos')
+    query = input("Press enter to agree to our TOS and start SasHax, or type 'T' to view the TOS: ")
 while query != "Q":
     print("Please enter a command:")
     print("D - Duplicate a save")
@@ -29,7 +41,8 @@ while query != "Q":
         print("Duplicating save...")
         ex(f"cp -r {userpath}/Library/Containers/com.rac7.SneakySasquatchMac/Data/Library/Application Support/com.rac7.SneakySasquatchMac/default{savefrom} {userpath}/Library/Containers/com.rac7.SneakySasquatchMac/Data/Library/Application Support/com.rac7.SneakySasquatchMac/default{saveto}")
         print("Save duplicated!")
-    if query == "C":
+    elif query == "C":
+        # print("Currently, this feature can only modify coins. Other modifications are coming soon.")
         print("Please enter a modification:")
         print("C - Coins")
         print("L - Lumber")
@@ -90,7 +103,7 @@ while query != "Q":
             with open(f"{userpath}/Library/Containers/com.rac7.SneakySasquatchMac/Data/Library/Application Support/com.rac7.SneakySasquatchMac/default{save}/sasquatch.stuff", "w") as f:
                 f.write(line)
             print("Save successfully modified!")
-    if query == "Q":
+    elif query == "Q":
         print("Goodbye.")
         os.system("cd")
         sys.exit()
